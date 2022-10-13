@@ -1,0 +1,4 @@
+https://jwt.ms
+https://auth0.com/docs/get-started/authentication-and-authorization-flow/authorization-code-flow
+https://msal-python.readthedocs.io/en/latest/
+https://learn.microsoft.com/en-us/azure/active-directory/develop/web-app-quickstart?pivots=devlang-python

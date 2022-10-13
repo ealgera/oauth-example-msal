@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>Microsoft Identity Python Web App</h1>
+    <h2>Welcome {{ user.get("name") }}!</h2>
+
+    {% if config.get("ENDPOINT") %}
+      <li><a href='/graphcall'>Call Microsoft Graph API</a></li>
+    {% endif %}
+
+    {% if my_session.get("tokens") %}
+      <li><a href='/show_tokens'>Laat Tokens enzo zien</a></li>
+    {% endif %}
+    <!-- {% if config.get("B2C_PROFILE_AUTHORITY") %}
+      <li><a href='{{_build_auth_code_flow(authority=config["B2C_PROFILE_AUTHORITY"])["auth_uri"]}}'>Edit Profile</a></li>
+    {% endif %} -->
+
+    <li><a href="/logout">Logout</a></li>
+    <hr>
+
+    <p>Client gegevens:</p>
+    <table>
+        <tr>
+            <td>Client ID</td>
+            <td>{{ app_id }}</td>
+        </tr>
+        <tr>
+            <td>Client Secret</td>
+            <td>{{ app_secret }}</td>
+        </tr>
+    </table>
+
+    <p>Session gegevens:</p>
+    <table>
+        <th style="text-align:left">Item</th>
+        <th style="text-align:left">Waarde</th>
+        {% for k, v in my_session.items() %}
+            {% if k == "flow" %}
+                <tr>
+                    <td>Flow</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <table>
+                            <th style="text-align:left">Item</th>
+                            <th style="text-align:left">Waarde</th>
+                            <tr></tr>
+                            {% for kf, vf in my_session["flow"].items() %}
+                                <tr>
+                                    <td>{{kf}}</td><td>{{vf}}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </td>
+                </tr>
+            {% else %}
+                {% if k == "user" %}
+                    <tr>
+                        <td>User</td>
+                        <td>-</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <table>
+                                <th style="text-align:left">Item</th>
+                                <th style="text-align:left">Waarde</th>
+                                <tr></tr>
+                                {% for kf, vf in my_session["user"].items() %}
+                                    <tr>
+                                        <td>{{kf}}</td><td>{{vf}}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td>{{k}}</td><td>{{v}}</td>
+                    </tr>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </table>
+
+    <footer style="text-align: right">Powered by MSAL Python {{ version }}</footer>
+</body>
+</html>
+

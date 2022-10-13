@@ -1,0 +1,45 @@
+Zaken aangepast aan demo Azure AD, Python source
+
+-   markupsafe==2.0.1 toegevoegd aan requirements.txt. 
+    Door: foutmelding bij de eerste start van de code.
+
+-   login.html
+    App id, secret en OAuth waarden op pagina zichtbaar gemaakt.
+
+-   in _build_auth_code_flow variabele aangemaakt voor de redirect_uri
+    Door: er werd oorspronkelijk een relatieve URL in de redirect_uri geplaatst (alleen /getAToken)
+    Daardoor ontstond er een fout na een klik op button 'Sign In' op login-scherm: 'AADSTS90102: 'redirect_uri' value must be a valid absolute URI.'
+    In een variabele red_uri het absolute deel van de URL erbij geplaatst. Deze nieuwe variabele gebruikt in de aanroep 'initiate_auth_code_flow'.
+    Ten slotte: redirect_uri parameter toch verwijderd uit route/view _build_auth_code_flow. Uit de source code blijkt dat deze parameter optioneel 
+    is en als niet meegegeven dan: "Optional. If not specified, server will use the pre-registered one"
+
+-   Azure App reg aangepast, feitelijk geen fout van de code.
+    In de app reg "Who can use this application" eerste keer aangegeven: alleen users in mijn tenant. Dit kan blijkbaar niet bij gebruik van een
+    personal MS-account (waarmee ik mijn tenant heb opgezet).
+    Tweede app geregistreerd met de keuze: "Accounts in any organizational directory (Any Azure AD directory - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)"
+    Nu gaat het goed.
+
+-   App reg aangepast, feitelijk geen fout van de code.
+    Scope stond op User.Read i.p.v. User.ReadBasic.All zoals ook opgenomen in app_config. Aangepast op basis van voorbeeld code (uit Azure).
+    FOUT!
+    Kreeg steeds de foutmelding ná keuze "Call Microsoft Graph API": te weinig permissies in access-token ("ErrorInsufficientPermissionsInAccessToken").
+    Scope weer teruggezet naar User.Read. En consent gegeven. Nu gaat het goed!
+    Onduidelijk waarom dit gebeurt: ben steeds aangemeld als global administrator van de tenant. Waarom kan ik dan niet het profiel inzien van andere
+    gebruikers?
+
+-   _load_cache en _save_cache aanroepen verwijderd. Die lijken niets te doen (anders dan de sessie-waarden om te zetten van en naar JSON).
+    Te gebruiken bij het persistent makan van de sessie? Maar dan nog wel zelf opslaan?
+
+    -   TOCH GEBRUIKT! Was me onduidelijk hoe het access_token omgewisseld wordt. Het lijkt erop dat session["token_cache"] belangrijk is.
+    -   _save_cache() functie aangepast. Deze was anders in de GIT repository (zie README.md) en bewaard nu daadwerkelijk session["token_cache"].
+
+-   my_session Toegevoegd aan aanroep index.html om daarmee session gegevens op het index-scherm te kunnen tonen.
+
+-   show_tokens url toegevoegd aan index.html. show_tokens() Route toegevoegd aan auth-code-msal.py zodat show_tokens.html getoond kan worden.
+    Scherm toont verkregen tokens vanuit de authenticatie.
+
+-   LET OP!
+    Ik maakte steeds de fout om de python app lokaal te starten en dan de browser te openen met 127.0.0.1:5000.
+    De login leek dan steeds te mislukken. Dat kwam doordat de sessie["flow"] niet meer bestond in de 'authorize' functie.
+    Oorzaak: de redirect url in Azure voor deze app is: http://localhost:5000. Dus geen 127.0.0.1!
+    een sessie kan niet bestaan óver domains heen, dus: de redirect vanuit Azure naar localhost wijzigde het domain daardoor een nieuwe sessie.

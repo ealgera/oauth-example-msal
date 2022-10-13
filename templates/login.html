@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>Microsoft Identity Python Web App</h1>
+
+    <li><a href='{{ auth_url }}'>Sign In</a></li>
+
+    <!-- {% if config.get("B2C_RESET_PASSWORD_AUTHORITY") %}
+    <li><a href='{{_build_auth_code_flow(authority=config["B2C_RESET_PASSWORD_AUTHORITY"])["auth_uri"]}}'>Reset Password</a></li>
+    {% endif %} -->
+
+    <hr>
+    <p>Client gegevens:</p>
+    <table>
+        <tr>
+            <td>Client ID</td>
+            <td>{{ app_id }}</td>
+        </tr>
+        <tr>
+            <td>Client Secret</td>
+            <td>{{ app_secret }}</td>
+        </tr>
+    </table>
+    <p>OAuth gegevens:</p>
+    <table>
+        <th style="text-align:left">Item</th>
+        <th style="text-align:left">Waarde</th>
+        {% for k, v in session_info.items() %}
+            {% if k == "flow" %}
+                <th style="text-align:left">Flow</th>
+                <th style="text-align:left">Item</th>
+                <tr>
+                    <td></td>
+                    <td>
+                        <table>
+                            <th style="text-align:left">-</th>
+                            <th style="text-align:left">Flow Waarde</th>
+                            <tr></tr>
+                            {% for kf, vf in session_info["flow"].items() %}
+                                <tr>
+                                    <td>{{kf}}</td><td>{{vf}}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td>{{k}}</td><td>{{v}}</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+    
+    <footer style="text-align: right">Powered by MSAL Python {{ version }}</footer>
+</body>
+</html>
+

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+
+<body>
+    <h2>Tokens</h2>
+    <dl>
+      <dt>Token type</dt>
+        <dd>{{ result.get("token_type", "Geen") }}</dd>
+      <dt>Scope</dt>
+        <dd>{{ result.get("scope", "Geen") }}</dd>
+      <dt>Access token</dt>
+        <dd>{{ result.get("access_token", "Geen") }}</dd>
+      <dt>Refresh token</dt>
+        <dd>{{ result.get("refresh_token", "Geen") }}</dd>
+      <dt>ID token</dt>
+        <dd>{{ result.get("id_token", "Geen") }}</dd>
+      <hr>
+      <dt>Token cache</dt>
+        <dd>
+          {% for k, v in cache.items() %}
+            <p>{{ k }}:</p>
+            <p>{{ v }}:</p>
+            <hr>
+          {% endfor %}
+        </dd>
+    </dl>
+    <hr>
+    <a href="{{ url_for('index') }}">Homepage</a>
+</body>
+</html>
