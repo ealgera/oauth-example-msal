@@ -43,3 +43,6 @@ Zaken aangepast aan demo Azure AD, Python source
     De login leek dan steeds te mislukken. Dat kwam doordat de sessie["flow"] niet meer bestond in de 'authorize' functie.
     Oorzaak: de redirect url in Azure voor deze app is: http://localhost:5000. Dus geen 127.0.0.1!
     een sessie kan niet bestaan óver domains heen, dus: de redirect vanuit Azure naar localhost wijzigde het domain daardoor een nieuwe sessie.
+
+-   Nog toegevoegd:
+    -   Gebruik van environment variabelen middels .env, .flaskenv en python-dotenv

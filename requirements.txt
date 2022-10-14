@@ -4,6 +4,7 @@ flask-session~=0.3.2
 requests>=2,<3
 msal>=1.7,<2
 markupsafe==2.0.1  # Later ingelezen na fout opstarten app. EAA
+python-dotenv
 
 # cachelib==0.1  # Only need this if you are running Python 2
 # Note: This sample does NOT directly depend on cachelib.
