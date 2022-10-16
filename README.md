@@ -9,9 +9,13 @@ Conform the Microsoft MSAL libraries and Python (3.x).
 - install the needed Python libraries: pip install -r requirements.txt
 
 #### App setup
-- create in Azure AD an web-app registration.
+- create in Azure AD a web-app registration.
 - copy the client secret and client id.
 - create an .env file like the example file .env_example
 - add the client secret to the .env file. Use the CLIENT_SECRET variable.
+- change / set needed variables in app_config.py (in any case: CLIENT_ID and maybe SCOPE)
 
-#### Start the app: python auth-code-msal.py
+#### Start the app
+- start: python auth-code-msal.py
+- goto http://localhost:5000 in a browser
+
