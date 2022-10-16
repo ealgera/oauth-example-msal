@@ -10,7 +10,9 @@ Conform the Microsoft MSAL libraries and Python (3.x).
 
 #### App setup
 - create in Azure AD a web-app registration.
+- create an API person (scope).
 - copy the client secret and client id.
+- 
 - create an .env file like the example file .env_example
 - add the client secret to the .env file. Use the CLIENT_SECRET variable.
 - change / set needed variables in app_config.py (in any case: CLIENT_ID and maybe SCOPE)
