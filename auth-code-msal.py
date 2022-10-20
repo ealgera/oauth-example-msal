@@ -54,20 +54,16 @@ def authorized():
     Wordt aangeroepen ná een authenticatie. De IDP (Azure AD) doet een callback naar de redirect uri.
     Deze route/view is opgenomen in app_config én in Azure app registratie 'redirect uri'
     Variabele 'result' is een Dict met o.a. access token en eventueel id token (afhankelijk van scope)
-
-    Normaal krijg je na authenticatie alleen een authorization code. In een volgende stap wissel je 
-    deze code + client-id, -secret in voor een acces-code en id-token (laatste afhankelijk van de scope openid).
-        Blijkbaar wordt het inwisselen + verificatie van gegevens al in de achtergrond gedaan want in
-        'result' zitten deze tokens al.
-        Dit blijft mij onduidelijk: waarom deze tokens al hier?
-        Feitelijk wordt in de functie graphcall het authorization token omgezet naar een acces-, refresh en id-token.
+    In functie 'acquire_token_by_auth_code_flow' wordt de authorization code omgezet naar id- en access-token.
     '''
     print(f"[info] <Authorized> ...")
+
+    args = request.args          # We get an authorization code (code) and state value back (in the request from the redirect)
+    session["auth_code"] = args  # Save 'authorization code' token and 'state'
 
     try:
         cache  = _load_cache()
         result = _build_msal_app(cache=cache).acquire_token_by_auth_code_flow(
-        # result = _build_msal_app().acquire_token_by_auth_code_flow(
             session.get("flow", {}),
             request.args
         ) 
@@ -75,7 +71,7 @@ def authorized():
         if "error" in result:
             return render_template("auth_error.html", result=result)
         
-        session["user"]   = result.get("id_token_claims")
+        session["user"] = result.get("id_token_claims")
         session["tokens"] = result
         _save_cache(cache)
     except Exception as e:
