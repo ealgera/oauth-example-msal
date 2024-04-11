@@ -12,9 +12,10 @@ Conform the Microsoft MSAL libraries and Python (3.x).
 - create in Azure AD a web-app registration.
 - create an API permission (scope).
 - copy the client secret and client id.
+- copy the tenantid.
 - create an .env file like the example file .env_example
 - add the client secret to the .env file. Use the CLIENT_SECRET variable.
-- change / set needed variables in app_config.py (in any case: CLIENT_ID and maybe SCOPE)
+- change / set needed variables in app_config.py (in any case: CLIENT_ID, TENANTID and maybe SCOPE)
 
 #### Start the app
 - start: python auth-code-msal.py

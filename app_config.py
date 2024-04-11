@@ -9,10 +9,12 @@ CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
 if not CLIENT_SECRET:
     raise ValueError("CLIENT_SECRET is niet gedefinieerd!")
 
-CLIENT_ID     = "73de801a-937d-4ee3-ba3e-dec460e1428b"     # Application (client) ID of app registration
+CLIENT_ID = "73de801a-937d-4ee3-ba3e-dec460e1428b"     # Application (client) ID of app registration
+TENANT_ID = "121d18b6-96bd-4da0-9bb8-845d80a1ec21"
 
-AUTHORITY = "https://login.microsoftonline.com/common"  # For multi-tenant app
+# AUTHORITY = "https://login.microsoftonline.com/common"  # For multi-tenant app
 # AUTHORITY = "https://login.microsoftonline.com/Enter_the_Tenant_Name_Here"
+AUTHORITY = f"https://login.microsoftonline.com/{TENANT_ID}"
 
 REDIRECT_PATH = "/getAToken"  # Used for forming an absolute URL to your redirect URI.
                               # The absolute URL must match the redirect URI you set
